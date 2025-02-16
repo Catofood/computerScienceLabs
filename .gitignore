@@ -1,0 +1,62 @@
+# Пре-компилированные заголовочные файлы
+*.gch
+*.pch
+
+# Объектные файлы
+*.o
+*.obj
+
+# Статические библиотеки
+*.a
+*.la
+*.lai
+
+# Динамические библиотеки
+*.so
+*.dylib
+*.dll
+
+# Исполняемые файлы
+*.exe
+*.out
+*.app
+
+# Файлы зависимостей
+*.d
+
+# Файлы, генерируемые компилятором
+*.slo
+*.lo
+*.pdb
+*.idb
+
+# Файлы, генерируемые IDE
+.vscode/
+.idea/
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+*.qm
+*.prl
+*.autosave
+*.qmake.stash
+*.qmake.cache
+*.qmake.conf
+
+# Игнорировать все файлы Word
+*.doc
+*.docx
+*.docm
+*.dot
+*.dotx
+*.dotm
