@@ -4,7 +4,7 @@
 #include <Windows.h>
 using namespace std;
 
-bool areEqual(double a, double b, double epsilon = 1e-6) {
+bool isEqual(double a, double b, double epsilon = 1e-3) {
     // fabs находит абсолютное значение для чисел с плавающей точкой
     return fabs(a - b) < epsilon;
 }
@@ -20,7 +20,7 @@ void calculate(double alpha_deg) {
     // Вычисление z2
     double z2 = 1 / tan((3 * M_PI / 2) - alpha_rad);
     char str[100];
-    if (areEqual(z1, z2))
+    if (isEqual(z1, z2))
     {
         CharToOem(L"Числа равны.", str);
     }
