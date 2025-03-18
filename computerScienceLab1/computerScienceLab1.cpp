@@ -13,7 +13,7 @@ bool isEqual(double a, double b, double epsilon = 1e-3) {
 void calculate(double alpha_deg) {
     // Преобразование угла в градусах в радианы
     double alpha_rad = alpha_deg * M_PI / 180.0;
-
+    
     // Вычисление z1
     double z1 = (sin(4 * alpha_rad) * cos(2 * alpha_rad)) / ((1 + cos(4 * alpha_rad)) * (1 + cos(2 * alpha_rad)));
 
@@ -49,7 +49,27 @@ int main() {
 	// cin, cout - консольные потоки ввода и вывода
 
     // Вызов функции для вычислений
-    calculate(alpha_deg);
+    // Преобразование угла в градусах в радианы
+    double alpha_rad = alpha_deg * M_PI / 180.0;
+
+    // Вычисление z1
+    double z1 = (sin(4 * alpha_rad) * cos(2 * alpha_rad)) / ((1 + cos(4 * alpha_rad)) * (1 + cos(2 * alpha_rad)));
+
+    // Вычисление z2
+    double z2 = 1 / tan((3 * M_PI / 2) - alpha_rad);
+    char str[100];
+    if (isEqual(z1, z2))
+    {
+        CharToOem(L"Числа равны.", str);
+    }
+    else {
+        CharToOem(L"Числа не равны.", str);
+    }
+    // Вывод результатов
+    // endl - символ перехода на новую строку
+    cout << "z1 = " << z1 << endl;
+    cout << "z2 = " << z2 << endl;
+    cout << str << endl;
 
     return 0;
 }
