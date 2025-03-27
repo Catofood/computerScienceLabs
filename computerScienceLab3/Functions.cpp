@@ -1,50 +1,122 @@
 #include <iostream>
+#include <cmath>
 #include <limits>
 #include <string>
-#include <cmath>
+
 using namespace std;
 
-
-int CustomInput(int length) {
+// Функция для проверки корректного ввода числа
+template <typename T>
+void inputCheck(T& value) {
     string input;
-    int value;
-    int max = (static_cast<int>(pow(2, length))) - 1;
-
     while (true) {
-        cout << "Введите число в диапазоне от 0 до " << max << ": ";
-        getline(cin, input);
-        bool valid = true;
-        // Проверка, что каждый символ строки является цифрой
-        for (char c : input) {
-            if (c < '0' || c > '9') {
-                valid = false;
-                break;
-            }
-        }
-        // Если введены только цифры
-        if (valid) {
-            value = stoi(input);  // Преобразуем строку в число
-            if (value >= 0 && value <= max) {
-                break;  // Если число в пределах диапазона, выходим из цикла
+        cin >> input;
+        size_t pos;
+        try {
+            if constexpr (is_same_v<T, int>) {
+                value = stoi(input, &pos);
             }
             else {
-                cout << "Число выходит за пределы диапазона. Попробуйте снова." << endl;
+                value = stod(input, &pos);
             }
+            if (pos != input.length()) {
+                throw invalid_argument("Некорректный ввод");
+            }
+            break;
         }
-        else {
-            cout << "Введены недопустимые символы. Пожалуйста, введите только цифры." << endl;
+        catch (...) {
+            cout << "Ошибка! Введите корректное число: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
+// Функция для поиска индекса максимального по модулю элемента
+int findMaxAbsIndex(const double* arr, int n) {
+    int maxIndex = 0;
+    for (int i = 1; i < n; i++) {
+        if (fabs(arr[i]) > fabs(arr[maxIndex])) {
+            maxIndex = i;
+        }
+    }
+    return maxIndex;
+}
+
+// Функция для вычисления суммы модулей элементов после первого положительного
+double sumAfterFirstPositive(const double* arr, int n) {
+    bool foundPositive = false;
+    double sum = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] > 0) {
+            foundPositive = true;
+            continue;
+        }
+        if (foundPositive) {
+            sum += fabs(arr[i]);
+        }
+    }
+    return sum;
+}
+
+// Функция для перестановки элементов по критерию
+void rearrangeArray(double* arr, int n, double a, double b) {
+    int left = 0, right = 0;
+    double* temp = new double[n];
+
+    // Заполняем временный массив элементами, целая часть которых в [a; b]
+    for (int i = 0; i < n; i++) {
+        if (floor(arr[i]) >= a && floor(arr[i]) <= b) {
+            temp[left++] = arr[i];
         }
     }
 
-    return value;
+    // Добавляем остальные элементы
+    for (int i = 0; i < n; i++) {
+        if (!(floor(arr[i]) >= a && floor(arr[i]) <= b)) {
+            temp[left + right++] = arr[i];
+        }
+    }
+
+    // Копируем обратно в оригинальный массив
+    for (int i = 0; i < n; i++) {
+        arr[i] = temp[i];
+    }
+
+    delete[] temp; // Освобождение памяти
 }
 
-int DataToNumber(int d, int a, int b, int number) {
-    return number | d << 7 | a << 4 | b << 1;
-}
+int main() {
+    int n;
+    cout << "Введите размер массива: ";
+    inputCheck(n);
 
-void NumberToData(int* d, int* a, int* b, int number) {
-    *d = (number >> 7) & 0x1; // Сдвигаем number вправо на 7 бит и применяем маску 0000 0000 0000 0001 (number остается без изменений)
-    *a = (number >> 4) & 0x7; // Сдвигаем number вправо на 4 бита и применяем маску 0000 0000 0000 0111
-    *b = (number >> 1) & 0x7; // Сдвигаем number вправо на 1 бит и применяем маску 0000 0000 0000 0111
+    double* arr = new double[n];
+
+    cout << "Введите элементы массива: ";
+    for (int i = 0; i < n; i++) {
+        inputCheck(arr[i]);
+    }
+
+    int maxAbsIndex = findMaxAbsIndex(arr, n);
+    cout << "Индекс максимального по модулю элемента: " << maxAbsIndex << endl;
+
+    double sumMod = sumAfterFirstPositive(arr, n);
+    cout << "Сумма модулей элементов после первого положительного: " << sumMod << endl;
+
+    double a, b;
+    cout << "Введите a и b для перестановки: ";
+    inputCheck(a);
+    inputCheck(b);
+
+    rearrangeArray(arr, n, a, b);
+
+    cout << "Преобразованный массив: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    delete[] arr; // Освобождение памяти
+    return 0;
 }
