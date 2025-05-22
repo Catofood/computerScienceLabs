@@ -40,8 +40,6 @@ bool isDashSentence(const std::string& sentence) {
     return false;
 }
 
-
-
 // Разбивает текст на предложения по символам окончания: '.', '!', '?', '\n'
 std::vector<std::string> splitIntoSentences(const std::string& text) {
     std::vector<std::string> sentences;
@@ -71,7 +69,6 @@ std::string readTextFromFile(const std::string& filename) {
     return buffer.str();
 }
 
-
 // Записывает предложения в файл построчно, каждое предложение с символом переноса строки
 void writeSentencesToFile(const std::vector<std::string>& sentences, const std::string& filename) {
     std::ofstream outFile(filename);
@@ -87,9 +84,6 @@ void writeSentencesToFile(const std::vector<std::string>& sentences, const std::
         outFile << sentence << '\n';
     }
 }
-
-
-
 
 // Добавляет .txt, если расширения нет
 std::string ensureTxtExtension(const std::string& filename) {
@@ -129,7 +123,6 @@ void requestFilenames(std::string& inputFile, std::string& outputFile) {
         }
     }
 }
-
 
 // Обрабатывает файл: фильтрует предложения и записывает результат
 void processFiles(const std::string& inputFile, const std::string& outputFile) {
