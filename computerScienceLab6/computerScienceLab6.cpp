@@ -7,6 +7,20 @@
 #include <crtdbg.h>
 #endif
 
+void printMatrix(double** matrix, int rows, int cols, const std::string& title) {
+    std::cout << "\n" << title << "\n";
+    if (rows == 0 || cols == 0) {
+        std::cout << "(пустая матрица)\n";
+        return;
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j)
+            std::cout << std::setw(8) << std::fixed << std::setprecision(2) << matrix[i][j];
+        std::cout << '\n';
+    }
+}
+
 // Безопасный ввод целого числа
 int getValidatedInt(const std::string& prompt) {
     int value;
@@ -147,42 +161,21 @@ int main() {
             std::cout << "Размеры должны быть положительными.\n";
             continue;
         }
-
-        matrix = new double* [rows];
-        for (int i = 0; i < rows; ++i)
-            matrix[i] = new double[cols];
-
-        readMatrix(matrix, rows, cols);
-
-        if (!hasPositive(matrix, rows, cols)) {
-            std::cout << "Матрица не содержит положительных значений.\n";
-            for (int i = 0; i < rows; ++i)
-                delete[] matrix[i];
-            delete[] matrix;
-            matrix = nullptr;
-            continue;
-        }
         break;
     }
 
-    std::cout << "\nВведённая матрица:\n";
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j)
-            std::cout << std::setw(8) << std::fixed << std::setprecision(2) << matrix[i][j];
-        std::cout << '\n';
-    }
+    matrix = new double* [rows];
+    for (int i = 0; i < rows; ++i)
+        matrix[i] = new double[cols];
+
+    readMatrix(matrix, rows, cols);
+
+    printMatrix(matrix, rows, cols, "Введённая матрица:");
 
     removeZeroRowsCols(matrix, rows, cols);
 
-    std::cout << "\nРезультирующая матрица:\n";
-    if (rows == 0 || cols == 0)
-        std::cout << "(пустая матрица)\n";
-    else
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j)
-                std::cout << std::setw(8) << std::fixed << std::setprecision(2) << matrix[i][j];
-            std::cout << '\n';
-        }
+    printMatrix(matrix, rows, cols, "Результирующая матрица:");
+
 
     int firstRow = firstPositiveRow(matrix, rows, cols);
     if (firstRow >= 0)

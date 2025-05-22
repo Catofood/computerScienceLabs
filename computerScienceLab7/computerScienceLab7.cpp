@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 #include <sstream>
 
-
 const int MAX_LEN = 2048;
 
 int getValidatedInt(const std::string& prompt) {
@@ -114,7 +113,7 @@ int main() {
     char input[MAX_LEN];
 
     while (true) {
-        std::cout << "Введите строку: ";
+        std::cout << "Введите строку (Максимальная длина " << MAX_LEN << " бит): ";
         readLine(input, MAX_LEN);
 
         int wordCount = countWords(input);
